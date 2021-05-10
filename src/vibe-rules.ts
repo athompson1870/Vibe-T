@@ -62,6 +62,10 @@ Note: The YouTube command requires a \`GEMINI_API_KEY\` to be set in your enviro
 **ClickUp Information:**
 \`vibe-tools clickup task <task_id>\` - Get detailed information about a ClickUp task including description, comments, status, assignees, and metadata (e.g., \`vibe-tools clickup task "task_id"\`)
 
+**Linear Information:**
+\`vibe-tools linear connect\` - Configure authentication for Linear using either personal API key or OAuth2 flow.
+\`vibe-tools linear get-issue <id>\` - Display Linear issue details including comments and attachments. Supports both Linear identifiers (e.g., LIN-123) and UUID format.
+
 **Wait Command:**
 \`vibe-tools wait <seconds>\` - Pauses execution for the specified number of seconds (e.g., \`vibe-tools wait 5\` to wait for 5 seconds).
 
@@ -104,6 +108,7 @@ The \`search\` command helps you discover servers in the MCP Marketplace and on 
 - \`vibe-tools doc\` generates documentation for local or remote repositories.
 - \`vibe-tools youtube\` analyzes YouTube videos to generate summaries, transcripts, implementation plans, or custom analyses
 - \`vibe-tools browser\` is useful for testing and debugging web apps and uses Stagehand
+- \`vibe-tools linear\` enables access to Linear issues with full context including comments and attachments. Use for project management and issue tracking tasks.
 - \`vibe-tools mcp\` enables interaction with specialized tools through MCP servers (e.g., for Git operations, file system tasks, or custom tools)
 - **URLS:** For any specific URL (documentation, article, reference, spec, GitHub repo, etc.), ALWAYS use a command with the \`--with-doc=<url>\` parameter rather than the \`web\` command. Examples: \`vibe-tools repo "How should I implement this feature based on the spec?" --with-doc=https://example.com/spec.pdf\` or \`vibe-tools ask "What does this document say about authentication?" --with-doc=https://example.com/auth-doc.html\`
 - When implementing features based on documentation, specifications, or any external content, always use the \`--with-doc=<url>\` flag instead of built-in web search. For example: \`vibe-tools plan "Implement login page according to specs" --with-doc=https://example.com/specs.pdf\` or \`vibe-tools repo "How should I implement this feature?" --with-doc=https://example.com/feature-spec.md\`.
@@ -140,6 +145,11 @@ The \`search\` command helps you discover servers in the MCP Marketplace and on 
 
 **GitHub Command Options:**
 --from-github=<GitHub username>/<repository name>[@<branch>]: Access PRs/issues from a specific GitHub repository
+--review-only: Show only code review comments section (PRs only)
+--discussion-only: Show only discussion comments section
+--metadata-only: Show only PR/issue metadata (labels, assignees, etc.)
+--no-links: Hide all "View in GitHub" links from output
+--hide-resolved: Filter out resolved code review comments (PRs only)
 
 **Browser Command Options (for 'open', 'act', 'observe', 'extract'):**
 --console: Capture browser console logs (enabled by default, use --no-console to disable)
@@ -189,6 +199,8 @@ If people say "ask Gemini" or "ask Perplexity" or "ask Stagehand" they mean to u
 - **Repomix Configuration:** You can customize which files are included/excluded during repository analysis by creating a \`repomix.config.json\` file in your project root. This file will be automatically detected by \`repo\`, \`plan\`, and \`doc\` commands.
 
 **Authentication and API Keys**: vibe-tools automatically loads API keys from ~/.vibe-tools/.env files, environment variables, and Doppler secrets when running in a folder that has a doppler project configured. Disable Doppler loading by adding \`"disableDoppler": true\` to \`vibe-tools.config.json\`. 
+
+**Environment Variable Precedence**: You can prefix any environment variable with \`VIBE_TOOLS_\` to ensure it takes precedence over other sources (e.g., \`VIBE_TOOLS_OPENAI_API_KEY\` overrides \`OPENAI_API_KEY\`). This is useful for CI/CD environments or when you want to use different API keys specifically for vibe-tools. 
 
 <!-- vibe-tools-version: ${VIBE_TOOLS_RULES_VERSION} -->`;
 
